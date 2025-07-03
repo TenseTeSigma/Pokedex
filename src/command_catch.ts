@@ -1,8 +1,11 @@
-import type { State } from "./state";
-import { PokeAPI, Pokemon } from "./pokeapi";
-
+import type { State } from "./state.js";
+import { savePokedex } from "./save_pokedex.js";
 
 export async function commandCatch(state: State, ...args: string[]): Promise<void>{
+    if (args[0] in state.pokedex) {
+        console.log(`${args[0]} has already been caught!`)
+        return;
+    }
     console.log(`Throwing a Pokeball at ${args}...`)
     const MAX_BASE_EXP = 400;
     const pokemonInfo = await state.pokeAPI.fetchPokemon(args[0]);
@@ -18,10 +21,10 @@ export async function commandCatch(state: State, ...args: string[]): Promise<voi
 
     if (random < catchThreshold) {
         console.log(`${args} was caught`);
-        state.pokedex[args[0]] = pokemonInfo
+        state.pokedex[args[0]] = true;
+        await savePokedex(state)
         
     } else {
         console.log(`${args} escaped!`);
-
   }
 }

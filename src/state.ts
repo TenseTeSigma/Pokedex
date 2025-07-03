@@ -15,7 +15,7 @@ export type State = {
   pokeAPI: PokeAPI;
   nextLocationsURL: string;
   prevLocationsURL: string;
-  pokedex: Record<string, Pokemon>;
+  pokedex: Record<string, boolean>;
 };
 
 export function initState() {
